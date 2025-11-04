@@ -3,4 +3,4 @@
 ['remote "gdrive"']
     url = gdrive://1nDGBfjE3BSEPobsMewLJi8lGknsKTgfT
     gdrive_use_service_account = true
-    gdrive_service_account_json_file_path = ../ledgerx-dvc-key.json
+    gdrive_service_account_json_file_path = ../ledgerx-dvc-storage-b9d80c48733d.json
