@@ -1,0 +1,73 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ledgerx-airflow-auto
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__WEBSERVER__SECRET_KEY=my_super_secret_key_ledgerx
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - PYTHONWARNINGS=ignore::SyntaxWarning
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
+      - ./reports:/opt/airflow/reports
+      - ./src:/opt/airflow/src
+      - ./tests:/opt/airflow/tests
+      - ./drive_creds.json:/opt/airflow/drive_creds.json
+      - ./start_ledgerx.sh:/opt/airflow/start_ledgerx.sh
+      - ./data:/opt/airflow/data  
+    command: >
+      bash -c "
+        airflow db upgrade &&
+        airflow users create --username admin --firstname Admin --lastname User \
+          --role Admin --email admin@example.com --password admin || true &&
+        bash /opt/airflow/start_ledgerx.sh
+      "
+
+  scheduler:
+    image: ledgerx-airflow-auto
+    restart: always
+    depends_on:
+      - postgres
+      - webserver
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__WEBSERVER__SECRET_KEY=my_super_secret_key_ledgerx
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - PYTHONWARNINGS=ignore::SyntaxWarning
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
+      - ./reports:/opt/airflow/reports
+      - ./src:/opt/airflow/src
+      - ./tests:/opt/airflow/tests
+      - ./drive_creds.json:/opt/airflow/drive_creds.json
+      - ./start_ledgerx.sh:/opt/airflow/start_ledgerx.sh
+    command: >
+      bash -c "
+        airflow db upgrade &&
+        airflow users create --username admin --firstname Admin --lastname User \
+          --role Admin --email admin@example.com --password admin || true &&
+        airflow scheduler
+      "
+
+volumes:
+  postgres_data:
