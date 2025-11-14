@@ -1,0 +1,3 @@
+Empty OCR entries: 0
+Average OCR text length: 501.24
+Duplicate OCR entries: 1

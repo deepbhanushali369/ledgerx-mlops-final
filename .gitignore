@@ -1,26 +1,21 @@
-# Virtual environment
+# Ignore virtual environment
 .venv/
 
-# Data & cache
-data/
-*.csv
-*.cache
-*.json.dvc
-*.lock
-
-# DVC artifacts
-*.dvc
-dvc.lock
-
-# Python cache
+# Ignore cache + build artifacts
 __pycache__/
-*.pyc
-
-# Logs
-logs/
 *.log
+*.zip
+*.csv
 
-# Credentials
-drive_creds.json
-ledgerx-dvc-storage-*.json
-client_secrets.json
+# Ignore Git metadata
+.git/
+
+# DVC cache files (safe to ignore)
+*.dvc
+
+# DO NOT IGNORE THESE ANYMORE:
+# reports/
+# data/
+# tests/
+# dags/
+# src/

@@ -1,42 +1,44 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Booting LedgerX Airflow + DVC Environment..."
-cd /opt/airflow || exit 1
+echo "🚀 Booting LedgerX Airflow Environment..."
 
-echo "🔧 Initializing Airflow database..."
-airflow db init
+# -----------------------------
+# 1. Database upgrade
+# -----------------------------
+echo "🔧 Initializing Airflow DB..."
+airflow db upgrade
 
-# Create admin user if it doesn't exist
-if ! airflow users list | grep -q "admin@example.com"; then
-  echo "👤 Creating Airflow admin user..."
-  airflow users create \
-    --username admin \
-    --firstname LedgerX \
-    --lastname Admin \
-    --role Admin \
-    --email admin@example.com \
-    --password admin
+# -----------------------------
+# 2. Create Admin user IF NOT EXISTS
+# -----------------------------
+echo "👤 Ensuring admin user exists..."
+
+airflow users list | grep -w "admin" >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    airflow users create \
+        --username admin \
+        --firstname Admin \
+        --lastname User \
+        --password admin \
+        --role Admin \
+        --email admin@example.com
+    echo "✅ Admin user created"
 else
-  echo "✅ Admin user already exists."
+    echo "ℹ️ Admin user already exists"
 fi
 
-echo "🌐 Configuring DVC..."
-if [ ! -d ".dvc" ]; then
-  dvc init --no-scm
-fi
+# -----------------------------
+# 3. Configure Git (for DVC)
+# -----------------------------
+echo "🌐 Configuring DVC + Git..."
+git config --global user.name "LedgerX Pipeline"
+git config --global user.email "pipeline@ledgerx.local"
 
-# Add Google Drive remote (your ID is already set)
-dvc remote add -d gdrive gdrive://1nDGBfjE3BSEPobsMewLJi8lGknsKTgfT >/dev/null 2>&1 || true
-dvc remote modify gdrive gdrive_user_credentials_file /opt/airflow/drive_creds.json || true
+# -----------------------------
+# 4. Start Airflow services
+# -----------------------------
+echo "🚀 Starting Airflow Webserver + Scheduler..."
 
-echo "⚙️ Setting Git identity..."
-git init || true
-git config user.email "admin@example.com"
-git config user.name "LedgerX"
-
-echo "✅ Starting Airflow standalone..."
-exec airflow standalone
-
-echo '?? Pulling latest data via DVC...'
-dvc pull || true
+airflow webserver &
+airflow scheduler

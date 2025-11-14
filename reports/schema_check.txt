@@ -1,0 +1,3 @@
+✔ Column present: file_name
+✔ Column present: ocr_text
+Total rows: 10000

@@ -1,29 +1,39 @@
-# src/stages/bias_check.py
 import pandas as pd
-from loguru import logger
 from pathlib import Path
 
-INPUT_FILE = Path("data/processed/fatura_ocr.csv")
-REPORT_FILE = Path("reports/bias_check_summary.txt")
+# Absolute paths inside Airflow container
+INPUT_FILE = Path("/opt/airflow/data/processed/fatura_ocr.csv")
+OUTPUT_FILE = Path("/opt/airflow/reports/bias_check_summary.txt")
+
 
 def detect_bias():
+    # Ensure directory exists
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    # Load OCR output
     df = pd.read_csv(INPUT_FILE)
-    df["text_length"] = df["ocr_text"].fillna("").str.len()
 
-    # Example slice: short vs long invoices
-    short_mean = df[df["text_length"] < 100]["text_length"].mean()
-    long_mean = df[df["text_length"] >= 100]["text_length"].mean()
+    results = []
 
-    diff = abs(short_mean - long_mean)
-    bias_flag = diff > 50
+    # Example bias checks:
+    # 1. Check for empty OCR extractions
+    empty_text_count = df["ocr_text"].isna().sum()
+    results.append(f"Empty OCR entries: {empty_text_count}")
 
-    REPORT_FILE.parent.mkdir(exist_ok=True)
-    with open(REPORT_FILE, "w") as f:
-        f.write(f"Short text avg: {short_mean:.2f}\n")
-        f.write(f"Long text avg: {long_mean:.2f}\n")
-        f.write(f"Bias detected: {bias_flag}\n")
+    # 2. Check average text length (helps detect truncation issues)
+    avg_length = df["ocr_text"].fillna("").str.len().mean()
+    results.append(f"Average OCR text length: {avg_length:.2f}")
 
-    logger.info(f"Bias check complete — difference = {diff:.2f}, bias={bias_flag}")
+    # 3. Check for repeated values (indicates OCR failures)
+    duplicate_count = df["ocr_text"].duplicated().sum()
+    results.append(f"Duplicate OCR entries: {duplicate_count}")
+
+    # Save report
+    with open(OUTPUT_FILE, "w") as f:
+        f.write("\n".join(results))
+
+    print(f"Bias check complete → {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     detect_bias()

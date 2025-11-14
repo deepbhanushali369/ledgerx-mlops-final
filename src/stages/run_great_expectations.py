@@ -2,7 +2,8 @@ from loguru import logger
 import great_expectations as ge
 from pathlib import Path
 
-DATA_PATH = Path("data/processed/fatura_ocr.csv")
+# ABSOLUTE PATH for Airflow container
+DATA_PATH = Path("/opt/airflow/data/processed/fatura_ocr.csv")
 
 def main():
     if not DATA_PATH.exists():
