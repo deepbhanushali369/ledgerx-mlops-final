@@ -1,21 +1,32 @@
-# Ignore virtual environment
+# Python
+__pycache__/
+*.pyc
 .venv/
 
-# Ignore cache + build artifacts
-__pycache__/
-*.log
-*.zip
-*.csv
+# VS Code
+.vscode/
 
-# Ignore Git metadata
-.git/
+# Data (do NOT commit from data folder)
+data/
+!data/.gitkeep
 
-# DVC cache files (safe to ignore)
+# Reports (runtime)
+reports/*.txt
+reports/*.json
+reports/*.csv
+
+# Credentials / secrets
+drive_creds.json
+*.pem
+*.key
+*.token
+.env
+
+# DVC cache
 *.dvc
+.cache/
+.dvc/
 
-# DO NOT IGNORE THESE ANYMORE:
-# reports/
-# data/
-# tests/
-# dags/
-# src/
+# OS trash
+Thumbs.db
+.DS_Store
