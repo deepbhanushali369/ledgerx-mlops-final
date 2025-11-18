@@ -1,0 +1,10 @@
+artifact_location: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/models/m-87eb86550ccb47e592319c30be0cb794/artifacts
+creation_timestamp: 1763464531044
+experiment_id: '421586673571963333'
+last_updated_timestamp: 1763464537170
+model_id: m-87eb86550ccb47e592319c30be0cb794
+model_type: null
+name: CatBoost
+source_run_id: 001e51686b3346b2961fde316c3b4c63
+status: 2
+status_message: null

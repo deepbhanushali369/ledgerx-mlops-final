@@ -1,0 +1,10 @@
+artifact_location: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/models/m-b44461ed01b24c6ab4e8268d404e3595/artifacts
+creation_timestamp: 1763459983375
+experiment_id: '421586673571963333'
+last_updated_timestamp: 1763459991921
+model_id: m-b44461ed01b24c6ab4e8268d404e3595
+model_type: null
+name: LogisticRegression
+source_run_id: 2e00d9cdb2394fd8976fd4a32cb77b09
+status: 2
+status_message: null

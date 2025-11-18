@@ -2,10 +2,19 @@
 __pycache__/
 *.pyc
 
-# Virtual environments (do NOT upload)
+# Virtual environments
+venv/
 .venv/
+env/
+ENV/
 
 # OS files
 Thumbs.db
 .DS_Store
+
+# Credentials
 drive_creds.json
+
+# DVC cache
+*.dvc
+.cache/

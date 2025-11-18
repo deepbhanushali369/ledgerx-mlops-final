@@ -1,0 +1,10 @@
+artifact_location: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/models/m-d7a3de4f9a764782956d39513241bf9d/artifacts
+creation_timestamp: 1763464396016
+experiment_id: '421586673571963333'
+last_updated_timestamp: 1763464399908
+model_id: m-d7a3de4f9a764782956d39513241bf9d
+model_type: null
+name: RandomForest
+source_run_id: 049d71cbfc244f4086a95e1f907fe73b
+status: 2
+status_message: null

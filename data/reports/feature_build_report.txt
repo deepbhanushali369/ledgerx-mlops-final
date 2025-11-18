@@ -1,0 +1,11 @@
+=== LedgerX Model-Ready Dataset Report (Structured-Only) ===
+Rows: 10000
+
+--- Failure Label Distribution ---
+{0: 5377, 1: 4623}
+
+--- Missing Values Summary ---
+{'invoice_number': 923, 'invoice_date': 0, 'total_amount': 0, 'vendor_name': 0, 'currency': 0, 'invoice_number_length': 0, 'invoice_age_days': 0, 'ocr_text_length': 0, 'blur_flag': 0, 'failure_label': 0}
+
+--- Sample Columns ---
+['invoice_number', 'invoice_date', 'total_amount', 'vendor_name', 'currency', 'invoice_number_length', 'invoice_age_days', 'ocr_text_length', 'blur_flag', 'failure_label']

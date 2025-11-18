@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/001e51686b3346b2961fde316c3b4c63/artifacts
+end_time: 1763464537184
+entry_point_name: ''
+experiment_id: '421586673571963333'
+lifecycle_stage: active
+run_id: 001e51686b3346b2961fde316c3b4c63
+run_name: CatBoost
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763464414596
+status: 3
+tags: []
+user_id: Deep

@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/ae265b101e1e4728adfe1123ff686658/artifacts
+end_time: 1763464394680
+entry_point_name: ''
+experiment_id: '421586673571963333'
+lifecycle_stage: active
+run_id: ae265b101e1e4728adfe1123ff686658
+run_name: LogisticRegression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763464388591
+status: 3
+tags: []
+user_id: Deep

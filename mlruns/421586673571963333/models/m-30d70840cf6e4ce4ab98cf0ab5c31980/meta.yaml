@@ -1,0 +1,10 @@
+artifact_location: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/models/m-30d70840cf6e4ce4ab98cf0ab5c31980/artifacts
+creation_timestamp: 1763460008003
+experiment_id: '421586673571963333'
+last_updated_timestamp: 1763460012507
+model_id: m-30d70840cf6e4ce4ab98cf0ab5c31980
+model_type: null
+name: LightGBM
+source_run_id: 59e7305ad9724b54bb6d579845dec7aa
+status: 2
+status_message: null

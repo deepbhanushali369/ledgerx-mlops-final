@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/6fda4a0c95a44755b7e66053ef36c0c3/artifacts
+end_time: 1763462328899
+entry_point_name: ''
+experiment_id: '421586673571963333'
+lifecycle_stage: active
+run_id: 6fda4a0c95a44755b7e66053ef36c0c3
+run_name: LightGBM
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763462320344
+status: 3
+tags: []
+user_id: Deep

@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/049d71cbfc244f4086a95e1f907fe73b/artifacts
+end_time: 1763464399929
+entry_point_name: ''
+experiment_id: '421586673571963333'
+lifecycle_stage: active
+run_id: 049d71cbfc244f4086a95e1f907fe73b
+run_name: RandomForest
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763464394680
+status: 3
+tags: []
+user_id: Deep

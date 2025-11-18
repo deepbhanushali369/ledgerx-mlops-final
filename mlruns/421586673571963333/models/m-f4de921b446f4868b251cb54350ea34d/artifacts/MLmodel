@@ -1,0 +1,22 @@
+artifact_path: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/models/m-f4de921b446f4868b251cb54350ea34d/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.4
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.6.0
+model_id: m-f4de921b446f4868b251cb54350ea34d
+model_size_bytes: 443661
+model_uuid: m-f4de921b446f4868b251cb54350ea34d
+prompts: null
+run_id: a88d9b081cc94f9099f158013003b509
+utc_time_created: '2025-11-18 10:38:36.326984'

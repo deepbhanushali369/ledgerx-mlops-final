@@ -18,3 +18,13 @@ dvc[gdrive]==3.51.0
 # Optional: Airflow plug-in utilities (safe to keep)
 apache-airflow-providers-common-sql==1.14.0
 apache-airflow-providers-postgres==5.10.0
+
+xgboost
+lightgbm
+catboost
+mlflow
+loguru
+scikit-learn
+pandas
+numpy
+matplotlib

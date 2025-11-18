@@ -1,0 +1,10 @@
+artifact_location: file:///D:/ledgerx-mlops-final/mlruns/421586673571963333/models/m-f0da55e5f140418cab2b7a12cc0e9775/artifacts
+creation_timestamp: 1763464400528
+experiment_id: '421586673571963333'
+last_updated_timestamp: 1763464405505
+model_id: m-f0da55e5f140418cab2b7a12cc0e9775
+model_type: null
+name: XGBoost
+source_run_id: 05e3235c3a5b4895bf9ab0575da51708
+status: 2
+status_message: null

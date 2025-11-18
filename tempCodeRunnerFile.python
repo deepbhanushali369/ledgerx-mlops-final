@@ -1,0 +1,3 @@
+import pandas as pd
+df = pd.read_csv("data/processed/fatura_model_ready.csv")
+print(df.columns.tolist())
