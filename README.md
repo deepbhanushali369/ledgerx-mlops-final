@@ -37,30 +37,73 @@ This repository implements the **IE7305 – MLOps Data Pipeline Submission** req
 ```
 ledgerx-mlops-final/
 │
-├── dags/                     # Airflow DAGs
-│   └── ledgerx_fatura_pipeline.py
+├── .dvc/                         # DVC internal metadata
+│
+├── dags/
+│   ├── ledgerx_fatura_pipeline.py
+│   └── ledgerx_fatura_preprocess.py
 │
 ├── data/
-│   ├── raw/                  # Raw OCR inputs
-│   ├── processed/            # Processed CSV (OCR normalized)
-│   └── reports/              # Schema, tests, bias reports
+│   ├── raw/                      # Raw OCR inputs / placeholder
+│   │   └── FATURA/               # Raw invoice or OCR source files
+│   │
+│   ├── processed/                # Outputs from transformations
+│   │   ├── fatura_structured.csv
+│   │   └── fatura_cleaned.csv
+│   │
+│   └── reports/                  # Pipeline output reports
+│       ├── schema_check.txt
+│       ├── bias_check_summary.txt
+│       ├── test_report.txt
+│       └── summary_report.txt
+│
+├── reports/                      # (Repo-level logs, optional)
 │
 ├── src/
-│   ├── acquire_fatura_data.py
-│   ├── preprocess_fatura.py
-│   ├── validate_schema.py
-│   ├── test_runner.py
-│   ├── generate_report.py
-│   └── bias_check.py
+│   ├── stages/                   # Pipeline stage scripts (12 total)
+│   │   ├── acquire_fatura_data.py
+│   │   ├── data_acquisition_fatura.py
+│   │   ├── preprocess_fatura.py
+│   │   ├── preprocess_fatura_to_schema.py
+│   │   ├── transform_ocr_to_structured.py
+│   │   ├── clean_fatura_data.py
+│   │   ├── run_great_expectations.py
+│   │   ├── validate_schema.py
+│   │   ├── schema_check.py
+│   │   ├── bias_check.py
+│   │   ├── validate_fatura.py
+│   │   └── generate_summary.py
+│   │
+│   ├── reporting/
+│   │   └── generate_summary_report.py     # Final summary used by DAG
+│   │
+│   └── validation/
+│       └── run_great_expectations.py      # Duplicate GE script (kept for folder structure)
 │
-├── tests/
-│   ├── test_preprocess.py
-│   └── test_schema.py
+├── tests/                        # Unit tests
+│   ├── test_preprocess_fatura.py
+│   └── test_validate_fatura.py
 │
-├── dvc.yaml                  # DVC pipeline definition
-├── Dockerfile                # Airflow custom image
-├── docker-compose.yml        # Airflow environment
-├── requirements.txt
+├── .dockerignore
+├── .dvcignore
+├── .gitignore
+│
+├── Dockerfile                    # Airflow custom image
+├── docker-compose.yml            # Complete Airflow environment
+│
+├── start_ledgerx.sh              # Entrypoint for Airflow webserver/scheduler
+│
+├── upload_to_drive.py            # (Optional) Google Drive sync utility
+├── drive_auth.py                 # (Optional) Drive auth helper
+├── settings.yaml                 # PyDrive config
+│
+├── dvc.yaml                      # DVC pipeline definition
+├── dvc.lock                      # DVC lockfile (data reproducibility)
+│
+├── pytest.ini                    # Pytest config
+│
+├── requirements.txt              # Python dependencies
+│
 └── README.md
 ```
 
