@@ -1,0 +1,14 @@
+LedgerX – Sensitivity Analysis Report
+=====================================
+
+Model path used: models\best_model_tuned.pkl
+
+Includes:
+- Top feature importance bar chart (feature_importance.png)
+- Global SHAP summary plot (shap_summary.png)
+
+Interpretation guidance:
+- Features with higher importance (or larger absolute SHAP values) have a stronger
+  influence on the model's predictions.
+- Use the SHAP summary plot to see which features consistently push predictions
+  toward failure vs. success, and whether any features behave unexpectedly.

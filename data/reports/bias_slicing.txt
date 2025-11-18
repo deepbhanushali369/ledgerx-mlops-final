@@ -1,0 +1,30 @@
+LedgerX – Bias Slicing Report
+================================
+
+Global Test Metrics:
+- support: 1500
+- accuracy: 1.0
+- precision: 1.0
+- recall: 1.0
+- f1: 1.0
+
+Per-slice Metrics:
+
+[vendor_name = Address:4894 Melanie Pass Apt. 742] (n=24): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = COMMERCIAL INVOICE] (n=223): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = Graham, Carrio and Stark] (n=30): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = INVOICE] (n=244): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = Parker, Phillips and Thomas] (n=32): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = Robinson-Carson 62 96 e] (n=26): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = Rogers, Olson and Sanders] (n=25): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = TAX INVOICE] (n=253): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = Yoder Luc] (n=21): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = i ie] (n=33): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[vendor_name = ss] (n=22): acc=1.0, prec=0.0, rec=0.0, f1=0.0
+[currency = EUR] (n=278): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[currency = UNK] (n=293): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[currency = USD] (n=929): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[blur_flag = 0] (n=1500): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[amount_bucket = 0–1k] (n=1448): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[amount_bucket = 1k–5k] (n=48): acc=1.0, prec=1.0, rec=1.0, f1=1.0
+[age_bucket = 365d+] (n=1500): acc=1.0, prec=1.0, rec=1.0, f1=1.0

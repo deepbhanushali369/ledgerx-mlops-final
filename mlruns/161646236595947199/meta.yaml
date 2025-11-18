@@ -1,0 +1,6 @@
+artifact_location: file:///D:/ledgerx-mlops-final/mlruns/161646236595947199
+creation_time: 1763489530151
+experiment_id: '161646236595947199'
+last_update_time: 1763489530151
+lifecycle_stage: active
+name: ledgerx_failure_model_tuning

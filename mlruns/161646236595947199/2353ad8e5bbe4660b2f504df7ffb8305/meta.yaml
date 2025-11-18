@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/ledgerx-mlops-final/mlruns/161646236595947199/2353ad8e5bbe4660b2f504df7ffb8305/artifacts
+end_time: 1763490425822
+entry_point_name: ''
+experiment_id: '161646236595947199'
+lifecycle_stage: active
+run_id: 2353ad8e5bbe4660b2f504df7ffb8305
+run_name: Tuning_XGBoost
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763490411205
+status: 3
+tags: []
+user_id: Deep

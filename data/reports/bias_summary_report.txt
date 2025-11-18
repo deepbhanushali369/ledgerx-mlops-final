@@ -1,0 +1,24 @@
+LedgerX – Bias Summary Report
+================================
+
+Global Test Metrics:
+- support: 1500
+- accuracy: 1.0
+- precision: 1.0
+- recall: 1.0
+- f1: 1.0
+
+Worst Slices by F1 Score:
+
+[vendor_name = ss] (n=22): f1=0.0 (Δ vs global = 1.0)
+[vendor_name = Address:4894 Melanie Pass Apt. 742] (n=24): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = COMMERCIAL INVOICE] (n=223): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = Graham, Carrio and Stark] (n=30): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = INVOICE] (n=244): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = Parker, Phillips and Thomas] (n=32): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = Robinson-Carson 62 96 e] (n=26): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = Rogers, Olson and Sanders] (n=25): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = TAX INVOICE] (n=253): f1=1.0 (Δ vs global = 0.0)
+[vendor_name = Yoder Luc] (n=21): f1=1.0 (Δ vs global = 0.0)
+
+Interpretation: Any slice with large negative Δ indicates a subgroup where the model performs worse. Investigate data quality, representation, or consider mitigation such as re-weighting or additional training samples.

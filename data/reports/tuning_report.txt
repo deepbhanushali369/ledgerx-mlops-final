@@ -1,0 +1,11 @@
+LedgerX – Hyperparameter Tuning Report
+Generated: 2025-11-18 13:27:57.236030
+
+Best Model: catboost
+
+Best Parameters:
+- iterations: 599
+- depth: 5
+- learning_rate: 0.1318614089477199
+- l2_leaf_reg: 7.995428850639961
+- border_count: 231
