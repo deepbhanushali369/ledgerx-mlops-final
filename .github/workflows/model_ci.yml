@@ -1,0 +1,209 @@
+name: LedgerX Model CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "src/**"
+      - "data/**"
+      - "requirements.txt"
+      - ".github/workflows/model_ci.yml"
+
+  workflow_dispatch: {}
+
+jobs:
+  model-ci:
+    runs-on: ubuntu-latest
+
+    env:
+      GCLOUD_PROJECT: mlops-ledgerx
+      GCLOUD_REGION: us-central1
+      GCLOUD_REPOSITORY: ledgerx-models
+      GCLOUD_PACKAGE: ledgerx-failure-model
+      GCLOUD_PATH: gcloud  # Linux runner uses gcloud from PATH
+
+    steps:
+      # -------------------------------
+      # CHECK OUT CODE
+      # -------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------------
+      # PYTHON SETUP
+      # -------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # -------------------------------
+      # AUTHENTICATE TO GOOGLE CLOUD
+      # -------------------------------
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.GCLOUD_PROJECT }}
+
+      # -------------------------------
+      # TRAINING (5 MODELS)
+      # -------------------------------
+      - name: Run training pipeline
+        run: |
+          python -m src.training.train_pipeline_07
+
+      # -------------------------------
+      # EVALUATION (THRESHOLD GATE)
+      # -------------------------------
+      - name: Run evaluation
+        run: |
+          python -m src.training.evaluate_model_08
+
+      - name: Check evaluation metrics threshold
+        run: |
+          python - << 'PY'
+          from pathlib import Path
+
+          report = Path("data/reports/model_evaluation.txt").read_text().splitlines()
+          metrics = {}
+          for line in report:
+            if ":" in line and not line.startswith("Confusion"):
+              k, v = line.split(":")
+              try:
+                metrics[k.strip()] = float(v.strip())
+              except:
+                pass
+
+          f1 = metrics.get("f1", 0.0)
+          THRESHOLD = 0.95
+
+          if f1 < THRESHOLD:
+            raise SystemExit(f"❌ F1 {f1:.4f} < {THRESHOLD} → FAILING PIPELINE (rollback).")
+          else:
+            print(f"✅ F1 {f1:.4f} ≥ {THRESHOLD} → OK to continue.")
+          PY
+
+      # -------------------------------
+      # HYPERPARAMETER TUNING
+      # -------------------------------
+      - name: Hyperparameter tuning
+        run: |
+          python -m src.training.tune_hyperparams_09
+
+      # -------------------------------
+      # BIAS SLICING
+      # -------------------------------
+      - name: Run bias slicing
+        run: |
+          python -m src.training.bias_slicing_10
+
+      # -------------------------------
+      # SENSITIVITY / SHAP
+      # -------------------------------
+      - name: Run sensitivity analysis
+        run: |
+          python -m src.training.sensitivity_analysis_11
+
+      # -------------------------------
+      # UPLOAD TO ARTIFACT REGISTRY
+      # -------------------------------
+      - name: Upload tuned model to Artifact Registry
+        run: |
+          python -m src.training.model_registry_12
+
+      # -------------------------------
+      # SAVE REPORTS
+      # -------------------------------
+      - name: Upload reports as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ledgerx-model-reports
+          path: |
+            data/reports/
+            model_packages/
+
+      # -------------------------------
+      # EMAIL NOTIFICATIONS (SUCCESS)
+      # -------------------------------
+      - name: Send success email
+        if: success()
+        env:
+          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        run: |
+          python - << 'PY'
+          import os, smtplib, ssl
+          from email.message import EmailMessage
+
+          sender = os.environ["SMTP_EMAIL"]
+          receiver = os.environ["SMTP_EMAIL"]    # sending to self
+          host = os.environ["SMTP_HOST"]
+          port = int(os.environ["SMTP_PORT"])
+          password = os.environ["SMTP_PASSWORD"]
+
+          msg = EmailMessage()
+          msg["Subject"] = "LedgerX Model CI/CD — SUCCESS ✔"
+          msg["From"] = sender
+          msg["To"] = receiver
+          msg.set_content("Your CI/CD pipeline completed successfully.\nA new ML model version was uploaded to Artifact Registry.")
+
+          context = ssl.create_default_context()
+          with smtplib.SMTP(host, port) as server:
+            server.starttls(context=context)
+            server.login(sender, password)
+            server.send_message(msg)
+          PY
+
+      # -------------------------------
+      # EMAIL NOTIFICATIONS (FAILURE)
+      # -------------------------------
+      - name: Send failure email
+        if: failure()
+        env:
+          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        run: |
+          python - << 'PY'
+          import os, smtplib, ssl
+          from email.message import EmailMessage
+
+          sender = os.environ["SMTP_EMAIL"]
+          receiver = os.environ["SMTP_EMAIL"]
+          host = os.environ["SMTP_HOST"]
+          port = int(os.environ["SMTP_PORT"])
+          password = os.environ["SMTP_PASSWORD"]
+
+          msg = EmailMessage()
+          msg["Subject"] = "LedgerX Model CI/CD — FAILURE ❌"
+          msg["From"] = sender
+          msg["To"] = receiver
+          msg.set_content(
+              "Your CI/CD pipeline FAILED.\n"
+              "Check GitHub Actions logs for details.\n"
+              "Failures may include:\n"
+              "- Evaluation threshold not met (rollback)\n"
+              "- Bias slicing errors\n"
+              "- SHAP analysis error\n"
+              "- Google Cloud authentication issues\n"
+          )
+
+          context = ssl.create_default_context()
+          with smtplib.SMTP(host, port) as server:
+            server.starttls(context=context)
+            server.login(sender, password)
+            server.send_message(msg)
+          PY
